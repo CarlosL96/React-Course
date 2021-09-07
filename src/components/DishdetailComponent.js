@@ -1,11 +1,20 @@
-import React, { Component } from 'react'
+import React from 'react'
 import dateFormat from 'dateformat'
-import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap'
+import {
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  Breadcrumb,
+  BreadcrumbItem
+} from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 function RenderDish ({ dish }) {
   return (
     <div className='col-12 col-md-5 m-1'>
-      <Card>
+      <Card key={dish.id}>
         <CardImg top src={dish.image} alt={dish.name} />
         <CardBody>
           <CardTitle>{dish.name}</CardTitle>
@@ -16,8 +25,7 @@ function RenderDish ({ dish }) {
   )
 }
 
-function RenderComments ({ dish }) {
-  let comments = dish.comments
+function RenderComments ({ comments }) {
   console.log(comments)
   return comments.map(comment => {
     const commentDate = dateFormat(comment.date, 'mmmm dS, yyyy')
@@ -34,27 +42,35 @@ function RenderComments ({ dish }) {
   })
 }
 
-class DishDetail extends Component {
-  constructor (props) {
-    super(props)
-  }
-
-  render () {
-    const dish = this.props.dish
-    if (dish != null)
-      return (
+const DishDetail = props => {
+  const dish = props.dish
+  if (dish != null)
+    return (
+      <div className='container'>
         <div className='row'>
-          <RenderDish dish={this.props.dish} />
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to='/menu'>Menu</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+          </Breadcrumb>
+          <div className='col-12'>
+            <h3>{props.dish.name}</h3>
+            <hr />
+          </div>
+        </div>
+        <div className='row'>
+          <RenderDish dish={props.dish} />
           <div className='col-12 col-md-5 text-left'>
-            <Card>
+            <Card key={props.id}>
               <h4>Comments</h4>
-              <RenderComments dish={this.props.dish} />
+              <RenderComments comments={props.comments} />
             </Card>
           </div>
         </div>
-      )
-    else return <div></div>
-  }
+      </div>
+    )
+  else return <div></div>
 }
 
 export default DishDetail
