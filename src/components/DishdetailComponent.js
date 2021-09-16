@@ -38,9 +38,7 @@ class CommentForm extends Component {
     })
   }
   handleComment (values) {
-    console.log('Current State is: ' + JSON.stringify(values))
-    alert('Current State is: ' + JSON.stringify(values))
-    //event.preventDefault()
+   this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
   }
   render () {
     return (
@@ -77,9 +75,9 @@ class CommentForm extends Component {
                 </Label>
                 <Col md={12}>
                   <Control.text
-                    model='.name'
-                    id='name'
-                    name='name'
+                    model='.author'
+                    id='author'
+                    name='author'
                     placeholder='Your Name'
                     className='form-control'
                     validators={{
@@ -138,9 +136,12 @@ function RenderDish ({ dish }) {
   )
 }
 
-function RenderComments ({ comments }) {
+function RenderComments ({ comments, addComment, dishId }) {
   console.log(comments)
-  return comments.map(comment => {
+  return (
+    <div>
+    <ul className = "list-unstyled">
+    {comments.map(comment => {
     const commentDate = dateFormat(comment.date, 'mmmm dS, yyyy')
     return (
       <li key={comments.id}>
@@ -152,7 +153,11 @@ function RenderComments ({ comments }) {
         </div>
       </li>
     )
-  })
+  })}
+    </ul>
+    <CommentForm dishId= {dishId} addComment={addComment} />
+    </div>
+  )
 }
 
 const DishDetail = props => {
@@ -177,8 +182,9 @@ const DishDetail = props => {
           <div className='col-12 col-md-5 text-left'>
             <Card key={props.id}>
               <h4>Comments</h4>
-              <RenderComments comments={props.comments} />
-              <CommentForm />
+              <RenderComments comments={props.comments}
+        addComment={props.addComment}
+        dishId={props.dish.id} />              
             </Card>
           </div>
         </div>
