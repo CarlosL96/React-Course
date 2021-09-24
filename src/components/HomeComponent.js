@@ -10,8 +10,7 @@ import {
 import { Loading } from './LoadingComponent'
 import { baseUrl } from '../shared/baseUrl';
 
-function RenderCard ({ item, isLoading, errMess }) {
-  if(!item) return <div></div>
+function RenderCard ({ item, isLoading, errMess }) { 
   if (isLoading) {
     return <Loading />
   } else if (errMess) {

@@ -40,7 +40,7 @@ class CommentForm extends Component {
     })
   }
   handleComment (values) {
-    this.props.addComment(
+    this.props.postComment(
       this.props.dishId,
       values.rating,
       values.author,
@@ -143,7 +143,7 @@ function RenderDish ({ dish }) {
   )
 }
 
-function RenderComments ({ comments, addComment, dishId }) {
+function RenderComments ({ comments, postComment, dishId }) {
   console.log(comments)
   return (
     <div>
@@ -162,7 +162,7 @@ function RenderComments ({ comments, addComment, dishId }) {
           )
         })}
       </ul>
-      <CommentForm dishId={dishId} addComment={addComment} />
+      <CommentForm dishId={dishId} postComment={postComment} />
     </div>
   )
 }
@@ -208,7 +208,7 @@ const DishDetail = props => {
               <h4>Comments</h4>
               <RenderComments
                 comments={props.comments}
-                addComment={props.addComment}
+                postComment={props.postComment}
                 dishId={props.dish.id}
               />
             </Card>
