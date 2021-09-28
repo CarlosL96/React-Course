@@ -10,9 +10,11 @@ import {
 import { Link } from 'react-router-dom'
 import { Loading } from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
+import { FadeTransform, Fade, Stagger } from "react-animation-components";
 const RenderLeader = ({ leader }) => {
   return (
     <div key={leader.id} className={'col-12 mt-5'}>
+      <Fade in>
       <Media tag={'li'}>
         <Media left top>
           <Media object src={baseUrl + leader.image} alt={leader.name} />
@@ -23,6 +25,7 @@ const RenderLeader = ({ leader }) => {
           <p>{leader.description}</p>
         </Media>
       </Media>
+      </Fade>
     </div>
   )
 }
@@ -130,7 +133,9 @@ function About (props) {
           <h2>Corporate Leadership</h2>
         </div>
         <div className='col-12'>
+          <Stagger in>
           <Media list>{leaders}</Media>
+          </Stagger>
         </div>
       </div>
     </div>
